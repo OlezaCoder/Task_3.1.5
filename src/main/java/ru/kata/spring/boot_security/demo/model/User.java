@@ -8,8 +8,6 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
 
-import ru.kata.spring.boot_security.demo.model.Role;
-
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
