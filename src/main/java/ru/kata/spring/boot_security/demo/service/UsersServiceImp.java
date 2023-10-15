@@ -18,13 +18,11 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class UsersServiceImp implements UsersService {
     private final UsersRepository usersRepository;
-    private final RolesRepository rolesRepository;
     private final PasswordEncoder getPasswordEncoder;
 
     @Autowired
-    public UsersServiceImp(UsersRepository usersRepository, RolesRepository rolesRepository, PasswordEncoder getPasswordEncoder) {
+    public UsersServiceImp(UsersRepository usersRepository, PasswordEncoder getPasswordEncoder) {
         this.usersRepository = usersRepository;
-        this.rolesRepository = rolesRepository;
         this.getPasswordEncoder = getPasswordEncoder;
     }
     public List<User> findAll() {
@@ -38,15 +36,19 @@ public class UsersServiceImp implements UsersService {
     }
 
     @Transactional
-    public boolean save(User user) {
+    public boolean save(User user, int[] roles) {
         Optional<User> userFromBD = usersRepository.findByUsername(user.getUsername());
 
         if (userFromBD.isPresent()) {
             return false;
         }
 
+        Set<Role> userRoles = new HashSet<>();
+        for (int roleId : roles) {
+            userRoles.add(new Role(roleId));
+        }
 
-        user.setRoles(Collections.singleton(new Role(1)));
+        user.setRoles(userRoles);
         user.setPassword(getPasswordEncoder.encode(user.getPassword()));
         usersRepository.save(user);
         return true;
@@ -61,6 +63,7 @@ public class UsersServiceImp implements UsersService {
             existingUser.setName(updatedUser.getName());
             existingUser.setLastname(updatedUser.getLastname());
             existingUser.setAge(updatedUser.getAge());
+            existingUser.setRoles(updatedUser.getRoles());
 
             usersRepository.save(existingUser);
         }

@@ -41,11 +41,11 @@ public class AdminsController {
 
     @PostMapping()
     public String createUser(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult) {
+                         BindingResult bindingResult, @RequestParam(value = "roles") int[] roles) {
         if (bindingResult.hasErrors())
             return "admins/newUser";
 
-        userService.save(user);
+        userService.save(user, roles);
         return "redirect:/admin";
     }
 

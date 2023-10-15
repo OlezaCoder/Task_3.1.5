@@ -27,8 +27,16 @@
         <input type="text" th:field="*{password}" id="password"/>
         <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
         <br/>
+        <label for="roles">Roles: </label>
+        <select id="roles" th:field="*{roles}" multiple>
+            <option th:value="1" th:text="User"></option>
+            <option th:value="2" th:text="Admin"></option>
+        </select>
         <input type="submit" value="Create!"/>
     </form>
+
+    <br/>
+    <a href="/logout">Logout</a>
 
 </body>
 </html>

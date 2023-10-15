@@ -23,8 +23,17 @@
         <input type="text" th:field="*{age}" id="age"/>
         <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>
         <br/>
+        <label for="roles">Roles: </label>
+        <select id="roles" th:field="*{roles}" multiple>
+            <option th:value="1" th:text="User"></option>
+            <option th:value="2" th:text="Admin"></option>
+        </select>
+        <br/>
         <input type="submit" value="Update!"/>
     </form>
+
+    <br/>
+    <a href="/logout">Logout</a>
 
 </body>
 </html>
