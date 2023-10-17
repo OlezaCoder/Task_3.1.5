@@ -15,17 +15,17 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "username")
+
     private String username;
-    @Column(name = "name")
+
     private String name;
-    @Column(name = "lastname")
+
     private String lastname;
-    @Column(name = "age")
+
     private int age;
-    @Column(name = "password")
+
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -39,6 +39,15 @@ public class User implements UserDetails {
         this.name = name;
         this.lastname = lastname;
         this.age = age;
+    }
+
+    public User(String username, String name, String lastname, int age, String password, Set<Role> roles) {
+        this.username = username;
+        this.name = name;
+        this.lastname = lastname;
+        this.age = age;
+        this.password = password;
+        this.roles = roles;
     }
 
     public int getId() {
