@@ -141,4 +141,15 @@ public class User implements UserDetails {
                 ", age=" + age +
                 '}';
     }
+
+    public String rolesToString() {
+        StringBuilder rolesString = new StringBuilder();
+        for (Role role : roles) {
+            rolesString.append(role.getName()).append(", ");
+        }
+        if (!rolesString.isEmpty()) {
+            rolesString.delete(rolesString.length() - 2, rolesString.length());
+        }
+        return rolesString.toString();
+    }
 }

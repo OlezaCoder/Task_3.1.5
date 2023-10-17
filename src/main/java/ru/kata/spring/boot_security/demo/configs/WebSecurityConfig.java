@@ -36,12 +36,15 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user").hasRole("USER")
+                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/auth/login", "/error").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().successHandler(successUserHandler)
+                .formLogin().loginPage("/auth/login").loginProcessingUrl("/process_login")
+                .successHandler(successUserHandler).failureUrl("/auth/login?error")
                 .permitAll()
                 .and()
                 .logout().logoutUrl("/logout")

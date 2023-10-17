@@ -1,11 +1,13 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repositories.RolesRepository;
 import ru.kata.spring.boot_security.demo.service.UsersService;
 import javax.validation.Valid;
 
@@ -17,48 +19,33 @@ public class AdminsController {
     private final UsersService userService;
     @Autowired
     public AdminsController(UsersService userService) {
+
         this.userService = userService;
     }
 
     @GetMapping()
-    public String showUsers(Model model) {
+    public String showUsers(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
         model.addAttribute("users", userService.findAll());
-        return "admins/showUsers";
+        return "admin/adminPage";
     }
 
-    @GetMapping("/{id}")
-    public String showUser(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userService.findOne(id));
-        return "admins/showUser";
-    }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
-        return "admins/newUser";
+    public String newUser(@AuthenticationPrincipal User authUser, @ModelAttribute("user") User user, Model model) {
+        model.addAttribute("authUser", authUser);
+        return "admin/addUser";
     }
 
     @PostMapping()
-    public String createUser(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult, @RequestParam(value = "roles") int[] roles) {
-        if (bindingResult.hasErrors())
-            return "admins/newUser";
-
+    public String createUser(@ModelAttribute("user") @Valid User user, @RequestParam(value = "roles") int[] roles) {
         userService.save(user, roles);
         return "redirect:/admin";
     }
 
-    @GetMapping("/{id}/edit")
-    public String editUser(Model model, @PathVariable("id") int id) {
-        model.addAttribute("user", userService.findOne(id));
-        return "admins/editUser";
-    }
 
     @PatchMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                         @PathVariable("id") int id) {
-        if (bindingResult.hasErrors())
-            return "admins/editUser";
-
+    public String updateUser(@ModelAttribute("user") @Valid User user, @PathVariable("id") int id) {
         userService.update(id, user);
         return "redirect:/admin";
     }
