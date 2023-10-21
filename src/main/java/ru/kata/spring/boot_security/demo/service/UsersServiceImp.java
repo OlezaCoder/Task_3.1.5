@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repositories.RolesRepository;
 import ru.kata.spring.boot_security.demo.repositories.UsersRepository;
 
 import java.util.*;
@@ -13,11 +14,13 @@ import java.util.*;
 @Service
 @Transactional(readOnly = true)
 public class UsersServiceImp implements UsersService {
+    private final RolesRepository rolesRepository;
     private final UsersRepository usersRepository;
     private final PasswordEncoder getPasswordEncoder;
 
     @Autowired
-    public UsersServiceImp(UsersRepository usersRepository, PasswordEncoder getPasswordEncoder) {
+    public UsersServiceImp(RolesRepository rolesRepository, UsersRepository usersRepository, PasswordEncoder getPasswordEncoder) {
+        this.rolesRepository = rolesRepository;
         this.usersRepository = usersRepository;
         this.getPasswordEncoder = getPasswordEncoder;
     }
@@ -32,22 +35,9 @@ public class UsersServiceImp implements UsersService {
     }
 
     @Transactional
-    public boolean save(User user, int[] roles) {
-        Optional<User> userFromBD = usersRepository.findByUsername(user.getUsername());
-
-        if (userFromBD.isPresent()) {
-            return false;
-        }
-
-        Set<Role> userRoles = new HashSet<>();
-        for (int roleId : roles) {
-            userRoles.add(new Role(roleId));
-        }
-
-        user.setRoles(userRoles);
+    public void save(User user) {
         user.setPassword(getPasswordEncoder.encode(user.getPassword()));
         usersRepository.save(user);
-        return true;
     }
 
     @Transactional
@@ -59,6 +49,7 @@ public class UsersServiceImp implements UsersService {
             existingUser.setName(updatedUser.getName());
             existingUser.setLastname(updatedUser.getLastname());
             existingUser.setAge(updatedUser.getAge());
+            existingUser.setPassword(getPasswordEncoder.encode(updatedUser.getPassword()));
             existingUser.setRoles(updatedUser.getRoles());
 
             usersRepository.save(existingUser);

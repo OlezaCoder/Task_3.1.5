@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import ru.kata.spring.boot_security.demo.service.UserDetailsServiceImp;
 
 @Configuration
@@ -38,13 +39,14 @@ public class WebSecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasRole("USER")
-                .antMatchers("/auth/login", "/error").permitAll()
+                .antMatchers("/login").anonymous()
+                .antMatchers("/api/users/**").hasRole("ADMIN")
+                .antMatchers("/api/user/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/auth/login").loginProcessingUrl("/process_login")
-                .successHandler(successUserHandler).failureUrl("/auth/login?error")
+                .formLogin()
+                .successHandler(successUserHandler).loginProcessingUrl("/login")
+                .usernameParameter("username"). passwordParameter("password")
                 .permitAll()
                 .and()
                 .logout().logoutUrl("/logout")

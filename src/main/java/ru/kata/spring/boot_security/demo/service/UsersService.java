@@ -6,7 +6,7 @@ import java.util.List;
 public interface UsersService {
     List<User> findAll();
     User findOne(int id);
-    boolean save(User user, int[] roles);
+    void save(User user);
     void update(int id, User updatedUser);
     void delete(int id);
 }
