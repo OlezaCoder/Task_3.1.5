@@ -37,7 +37,7 @@ public class User implements UserDetails {
     private String password;
 
     @NotEmpty(message = "The role cannot be omitted")
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "roleId"))
