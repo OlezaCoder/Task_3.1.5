@@ -9,9 +9,8 @@ async function getUser() {
                     <td>${user.userId}</td>
                     <td>${user.username}</td>
                     <td>${user.name}</td>
-                    <td>${user.surname}</td>
+                    <td>${user.lastname}</td>
                     <td>${user.age}</td>
-                    <td>${user.email}</td>
                     <td>${user.roles.map(e => " " + e.role.substr(5))}</td>
                 </tr>
             `;
@@ -36,22 +35,6 @@ async function getUser() {
         })
 }
 
-async function tittle() {
-    let temp = ''
-    const h1a1 = document.querySelector('#h1a1');
-    if (isUser) {
-        temp = `
-            <h1 className="h1 a1" id="h1a1">User information page</h1>
-            `;
-        h1a1.innerHTML = temp;
-    } else {
-        temp = `
-            <h1 className="h1 a1" id="h1a1">Admin panel</h1>
-            `;
-        h1a1.innerHTML = temp;
-    }
-}
-
 async function getUsers() {
     let temp = '';
     const table = document.querySelector('#tableAllUsers tbody');
@@ -64,9 +47,8 @@ async function getUsers() {
                     <td>${user.userId}</td>
                     <td>${user.username}</td>
                     <td>${user.name}</td>
-                    <td>${user.surname}</td>
+                    <td>${user.lastname}</td>
                     <td>${user.age}</td>
-                    <td>${user.email}</td>
                     <td>${user.roles.map(e => " " + e.role.substr(5))}</td>
                     <td>
                         <button type="button" data-userid="${user.userId}" data-action="edit" class="btn btn-info"

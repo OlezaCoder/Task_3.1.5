@@ -7,7 +7,6 @@ let isUser = true;
 $(async function () {
     await getUser();
     await infoUser();
-    await tittle();
     await getUsers();
     await getNewUserForm();
     await getDefaultModal();

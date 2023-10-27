@@ -6,5 +6,5 @@ import ru.kata.spring.boot_security.demo.model.Role;
 
 
 @Repository
-public interface RoleDAO extends JpaRepository<Role, Long> {
+public interface RoleRepository extends JpaRepository<Role, Long> {
 }

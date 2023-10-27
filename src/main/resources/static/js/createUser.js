@@ -4,9 +4,8 @@ async function createUser() {
         let username = addUserForm.find('#usernameCreate').val().trim();
         let password = addUserForm.find('#passwordCreate').val().trim();
         let name = addUserForm.find('#nameCreate').val().trim();
-        let surname = addUserForm.find('#surnameCreate').val().trim();
+        let lastname = addUserForm.find('#lastnameCreate').val().trim();
         let age = addUserForm.find('#ageCreate').val().trim();
-        let email = addUserForm.find('#emailCreate').val().trim();
         let checkedRoles = () => {
             let array = []
             let options = document.querySelector('#rolesCreate').options
@@ -21,9 +20,8 @@ async function createUser() {
             username: username,
             password: password,
             name: name,
-            surname: surname,
+            lastname: lastname,
             age: age,
-            email: email,
             roles: checkedRoles()
         }
 
@@ -33,9 +31,8 @@ async function createUser() {
             addUserForm.find('#usernameCreate').val('');
             addUserForm.find('#passwordCreate').val('');
             addUserForm.find('#nameCreate').val('');
-            addUserForm.find('#surnameCreate').val('');
+            addUserForm.find('#lastnameCreate').val('');
             addUserForm.find('#ageCreate').val('');
-            addUserForm.find('#emailCreate').val('');
             addUserForm.find(checkedRoles()).val('');
             let alert = `<div class="alert alert-success alert-dismissible fade show col-12" role="alert" id="successMessage">
                          User create successful!

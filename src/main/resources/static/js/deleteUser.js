@@ -28,8 +28,8 @@ async function deleteUser(modal, id) {
                 </div>
 
                 <div class="form-group">
-                    <label for="surname" class="com-form-label">Surname</label>
-                    <input type="text" class="form-control" id="surname" value="${user.surname}" readonly>
+                    <label for="lastname" class="com-form-label">Lastname</label>
+                    <input type="text" class="form-control" id="lastname" value="${user.lastname}" readonly>
                 </div>
 
                 <div class="form-group">
@@ -38,11 +38,6 @@ async function deleteUser(modal, id) {
                     <div class="invalid-feedback">
                         Age cannot be empty
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="email" class="com-form-label">Email</label>
-                    <input type="text" class="form-control" id="email" value="${user.email}"  readonly>
                 </div>
                 
                  <div class="form-group">

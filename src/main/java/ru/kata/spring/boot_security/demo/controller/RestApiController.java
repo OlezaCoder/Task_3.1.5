@@ -75,14 +75,8 @@ public class RestApiController {
         }
         try {
             String oldPassword = userService.getById(id).getPassword();
-            if (oldPassword.equals(user.getPassword())) {
-                System.out.println("TRUE");
-                user.setPassword(oldPassword);
-                userService.update(user);
-            } else {
-                System.out.println("FALSE");
-                userService.save(user);
-            }
+            user.setPassword(oldPassword);
+            userService.update(user);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (UserUsernameExistException u) {
             throw new UserUsernameExistException("User with username exist");

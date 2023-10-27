@@ -68,7 +68,7 @@
                            href="#adminTable" data-toggle="tab">Admin</a>
                     </li>
                     <li>
-                    <a class="list-group-item" id="userTab"
+                    <a sec:authorize="hasRole('ROLE_USER')" class="list-group-item" id="userTab"
                        href="#userTable" data-toggle="tab">User</a>
                     </li>
                 </ul>
@@ -97,9 +97,8 @@
                                     <th>UserId</th>
                                     <th>Username</th>
                                     <th>Name</th>
-                                    <th>Surname</th>
+                                    <th>Lastname</th>
                                     <th>Age</th>
-                                    <th>Email</th>
                                     <th>Role</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
@@ -121,9 +120,8 @@
                                     <th>UserId</th>
                                     <th>Username</th>
                                     <th>Name</th>
-                                    <th>Surname</th>
+                                    <th>Lastname</th>
                                     <th>Age</th>
-                                    <th>Email</th>
                                     <th>Role</th>
                                 </tr>
                                 </thead>
@@ -156,18 +154,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="surnameCreate" class="com-form-label">Surname</label>
-                                <input type="text" class="form-control" id="surnameCreate">
+                                <label for="lastnameCreate" class="com-form-label">Lastname</label>
+                                <input type="text" class="form-control" id="lastnameCreate">
                             </div>
 
                             <div class="form-group">
                                 <label for="ageCreate" class="com-form-label">Age</label>
                                 <input type="number" class="form-control" id="ageCreate">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="emailCreate" class="com-form-label">Email</label>
-                                <input type="text" class="form-control" id="emailCreate">
                             </div>
 
                             <div class="form-group">
