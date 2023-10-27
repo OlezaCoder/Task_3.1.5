@@ -11,16 +11,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import ru.kata.spring.boot_security.demo.service.UserDetailsServiceImp;
+import ru.kata.spring.boot_security.demo.configs.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
     private final SuccessUserHandler successUserHandler;
-    private final UserDetailsServiceImp userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
     @Autowired
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDetailsServiceImp userDetailsService) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDetailsServiceImpl userDetailsService) {
         this.successUserHandler = successUserHandler;
         this.userDetailsService = userDetailsService;
     }
@@ -39,13 +39,12 @@ public class WebSecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login").anonymous()
-                .antMatchers("/api/users/**").hasRole("ADMIN")
-                .antMatchers("/api/user/**").hasRole("USER")
+                .antMatchers("/auth/login", "/error").anonymous()
+                .antMatchers("/").access("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .successHandler(successUserHandler).loginProcessingUrl("/login")
+                .formLogin().loginPage("/auth/login").loginProcessingUrl("/process_login")
+                .successHandler(successUserHandler).failureUrl("/auth/login?error")
                 .usernameParameter("username"). passwordParameter("password")
                 .permitAll()
                 .and()
